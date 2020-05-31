@@ -102,3 +102,31 @@ def insert_researcher(db, institution_id, researcher_id, first_name, last_name, 
         db.rollback()
         print("error, something wrong - researcher")
 
+def insert_institution(db, institution_id, institution_location, institution_money, institution_email, institution_phone):
+    cursor = db.cursor()
+    insert = """
+            insert into researcher(institution_id, institution_location, institution_money, institution_email, institution_phone):
+            values (%i, "%s", %i, "%s", "%s")
+             """%(institution_id, institution_location, institution_money, institution_email, institution_phone)
+    try:
+        cursor.execute(insert)
+        db.commit()
+        print("insert confirmed - institution")
+    except:
+        db.rollback()
+        print("error, something wrong - institution")
+
+   
+def insert_volunteer(db, volunteer_id, first_name, last_name, gender, age, blood_type, country):
+    cursor = db.cursor()
+    insert = """
+            insert into researcher(volunteer_id, first_name, last_name, gender, age, blood_type, country):
+            values (%i, "%s", "%s", "%s", %i, "%s", "%s")
+             """%(volunteer_id, first_name, last_name, gender, age, blood_type, country)
+    try:
+        cursor.execute(insert)
+        db.commit()
+        print("insert confirmed - institution")
+    except:
+        db.rollback()
+        print("error, something wrong - institution")
