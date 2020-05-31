@@ -5,13 +5,9 @@ This part supports for basic query operations
 Basic_query
 1、查询所有研究机构在北京的研究人员的姓名（包括first_name和last_name）
 */
-Select first_name,last_name
-From researcher
-Where researcher_id in (select researcher_id
-From institution_researcher
-Where institution_id in (select institution_id
-From institution
-Where institution_location='beijing'))
+Select researcher.first_name, researcher.last_name
+From researcher, institution
+Where researcher.institution_id = institution.institution_id and institution.location = "beijing"
                          /*
 2、查询使用药物名为Redsivir进行的研究的编号、阶段和状态（trial_id,trial_stage,trial_status）
                          */
@@ -104,8 +100,8 @@ Where department='pneumology'
 select*
 from pneumology_doctor
 			 
-#得到某个国家各个省市病例人数
-#sql语句部分定义函数date_num
+/*得到某个国家各个省市病例人数
+#sql语句部分定义函数date_num*/
 CREATE OR REPLACE FUNCTION date_num(DATE_ date)
   RETURNS table(case_num bigint,
 			   city_name VARCHAR(20)) AS $$
@@ -118,8 +114,8 @@ Group by city;
 end;$$
 LANGUAGE 'plpgsql';
 
-#得到某个类型药物的研发情况
-#sql语句定义函数drug_num
+/*得到某个类型药物的研发情况
+sql语句定义函数drug_num*/
 CREATE OR REPLACE FUNCTION drug_num(DATE_ date)
   RETURNS table(insti_location VARCHAR(20),
 			   drug_count bigint) AS $$
@@ -137,3 +133,5 @@ Where drug_type='TYPE'
 group by institution_location;
 end;$$
 LANGUAGE 'plpgsql';					     
+
+/* 					     
