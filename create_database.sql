@@ -37,6 +37,7 @@ CREATE TABLE trial_drug
 
 create table researcher
 (
+    institution_id int,
 	researcher_id int,
     first_name varchar(25),
     last_name varchar(25),
@@ -44,7 +45,8 @@ create table researcher
     email varchar(25),
     phonenumber varchar(25),
     department varchar(25),
-    primary key (researcher_id)
+    primary key (institution_id, researcher_id),
+    FOREIGN KEY (institution_id) REFERENCES institution(institution_id)
 );
 
 create table institution
@@ -57,14 +59,6 @@ create table institution
     primary key (institution_id)
 );
 
-create table institution_researcher
-(
-	researcher_id int,
-	institution_id int,
-    primary key (researcher_id),
-    foreign key(researcher_id) references researcher(researcher_id),
-    foreign key(institution_id) references institution(institution_id)
-);
 
 create table experiment
 (
