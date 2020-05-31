@@ -21,8 +21,8 @@ CREATE TABLE clinical_trial
     record_date date,
     start_date date,
     end_date date,
-    bid_institution date,
-    trial_institution date,
+    bid_institution varchar(50),
+    trial_institution varchar(50),
     primary key (trial_id)
 );
 
