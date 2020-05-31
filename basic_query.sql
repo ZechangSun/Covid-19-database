@@ -134,4 +134,7 @@ group by institution_location;
 end;$$
 LANGUAGE 'plpgsql';					     
 
-/* 					     
+/* 查询给定地点的所有医院*/
+select name from hospital
+where site_id = 1;
+					     
