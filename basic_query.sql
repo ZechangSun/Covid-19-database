@@ -103,3 +103,37 @@ From doctor
 Where department='pneumology'
 select*
 from pneumology_doctor
+			 
+#得到某个国家各个省市病例人数
+#sql语句部分定义函数date_num
+CREATE OR REPLACE FUNCTION date_num(DATE_ date)
+  RETURNS table(case_num bigint,
+			   city_name VARCHAR(20)) AS $$
+begin
+return QUERY SELECT count(case_id) as case_num,city
+From cases,SITE
+Where cases.site_id=SITE.site_id
+and situation='confirmed' and confirmed_date<DATE_ and country='china'
+Group by city;
+end;$$
+LANGUAGE 'plpgsql';
+
+#得到某个类型药物的研发情况
+#sql语句定义函数drug_num
+CREATE OR REPLACE FUNCTION drug_num(DATE_ date)
+  RETURNS table(insti_location VARCHAR(20),
+			   drug_count bigint) AS $$
+begin
+return QUERY With researcher_institution(researcher_id,trial_id,institution_id,institution_location)
+As (select researcher_id,trial_id,institution_id,institution_location
+From researcher_experiment natural join institution natural join institution_researcher natural join experiment
+Where start_date<=DATE_ and end_date>=DATE_),
+Drug_trial(trial_id,drug_id,drug_type)
+As (select trial_id,drug_id,drug_type
+From trial_drug natural join drug)
+Select institution_location,count(drug_id) as drug_count
+From researcher_institution natural join drug_trial
+Where drug_type='TYPE'
+group by institution_location;
+end;$$
+LANGUAGE 'plpgsql';					     
