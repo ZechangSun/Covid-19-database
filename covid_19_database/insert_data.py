@@ -126,7 +126,7 @@ def insert_volunteer(db, volunteer_id, first_name, last_name, gender, age, blood
     try:
         cursor.execute(insert)
         db.commit()
-        print("insert confirmed - institution")
+        print("insert confirmed - volunteer")
     except:
         db.rollback()
-        print("error, something wrong - institution")
+        print("error, something wrong - volunteer")
