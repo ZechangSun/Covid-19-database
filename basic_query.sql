@@ -137,4 +137,17 @@ LANGUAGE 'plpgsql';
 /* 查询给定地点的所有医院*/
 select name from hospital
 where site_id = 1;
+
+/* 查询给定医院的医生姓名*/
+select first_name, last_name
+from doctor
+where hospital_id = hospital_id and site_id = site_id
+
+/* 查询某一位患者的出行*/
+select * from case_move
+where case_id = case_id and site_id = site_id
+
+/* 查询某一位患者接触过的人 */
+select close_contact_site_id, close_contact_id from contact
+where case-id = case_id and case_site_id = case_site_id
 					     
